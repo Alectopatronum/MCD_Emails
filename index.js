@@ -8,8 +8,8 @@ const axios = require('axios');
 // Load configurations
 const EMAIL_USER = process.env.EMAIL_USER;
 const EMAIL_PASS = process.env.EMAIL_PASS;
-const EMAIL_SUBJECT = process.env.EMAIL_SUBJECT || "MCD Senior Associate Deployments";
-const EMAIL_FROM_NAME = process.env.EMAIL_FROM_NAME || "Marketing & Communications Department - MEA";
+const EMAIL_SUBJECT = process.env.EMAIL_SUBJECT || "Congratulations! Welcome to the ACSC Core Team | MarkStrat Head";
+const EMAIL_FROM_NAME = process.env.EMAIL_FROM_NAME || "Ateneo Corporate Sustainability Conference (ACSC) - MEA";
 const GOOGLE_SHEET_CSV_URL = process.env.GOOGLE_SHEET_CSV_URL;
 const LOCAL_CSV_PATH = path.join(__dirname, 'recipients.csv');
 const TEMPLATE_PATH = path.join(__dirname, 'template.html');
@@ -26,11 +26,9 @@ function getImagePath(baseNameNoExt) {
     return null;
 }
 
+// Configurable images for CID inline embedding (if needed)
 const IMAGE_CONFIGS = [
-    { name: 'senior_assoc_deployments', cid: 'imgDeployments' },
-    { name: 'senior_assoc_dates_1', cid: 'imgDates1' },
-    { name: 'senior_assocs_dates_2', cid: 'imgDates2' },
-    { name: 'senior_assoc_important_dates', cid: 'imgImportantDates' },
+    // Add image configs here if attaching pubs (e.g. { name: 'acsc_poster', cid: 'imgPoster' })
 ];
 
 // Ensure essential env vars are set
@@ -90,10 +88,10 @@ function populateTemplate(template, row) {
         populated = populated.replace(regex, value);
     }
     // Fallback if {{First name}} wasn't replaced
-    if (populated.includes('{{First name}}')) {
-        const nameVal = row['First name'] || row['First Name'] || row.name || row.Name || 'Associate';
-        populated = populated.replace(/{{First name}}/g, nameVal);
-    }
+    const nameVal = row['First name'] || row['First Name'] || row.name || row.Name || 'MarkStrat Head';
+    populated = populated.replace(/{{First name}}/g, nameVal);
+    populated = populated.replace(/{{Name}}/g, nameVal);
+    populated = populated.replace(/{{name}}/g, nameVal);
     return populated;
 }
 
